@@ -20,5 +20,7 @@ func RecordUser(router echo.Context) error{
 		return router.JSON(http.StatusBadRequest, map[string]string{"status":"error"})
 	}
 
+	users[userName] = score
+
 	return router.JSON(http.StatusOK, map[string]int{userName:score})
 }

@@ -28,6 +28,7 @@ func main(){
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 	e.POST("/record", routes.RecordUser)
+	e.GET("/users", routes.GetUsers)
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", os.Getenv("HOSTPORT"))))
 }
