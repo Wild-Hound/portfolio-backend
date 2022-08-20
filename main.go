@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"os"
 
+	"portfolio/routes"
+
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -25,5 +27,7 @@ func main(){
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
+	e.POST("/record", routes.RecordUser)
+
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", os.Getenv("HOSTPORT"))))
 }
