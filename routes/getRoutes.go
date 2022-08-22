@@ -9,7 +9,7 @@ import (
 )
 
 type user struct{
-	Id int
+	id int
 	Name string `json:"name"`
 	Score int `json:"score"`
 }
@@ -26,15 +26,13 @@ func GetUsers(router echo.Context, DB *sql.DB) error {
 
 	for rows.Next(){
 		user := user{}
-		err := rows.Scan(&user.Id, &user.Name, &user.Score)
+		err := rows.Scan(&user.id, &user.Name, &user.Score)
 		if(err != nil){
 			panic(err)
 		}
 
 		users = append(users, user)
 	}
-
-	fmt.Println(users)
 
 	return router.JSON(http.StatusOK, users)
 }
