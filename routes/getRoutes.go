@@ -9,13 +9,17 @@ import (
 )
 
 type user struct{
-	id int
-	Name string `json:"name"`
+	ID int
+	User_name string `json:"name"`
 	Score int `json:"score"`
+	Country string `json:"country"`
+	Lat float64 `json:"lat"`
+	Lon float64 `json:"lon"`
+	Created_at string `json:"created_at"`
 }
 
 func GetUsers(router echo.Context, DB *sql.DB) error {
-	query := `SELECT * FROM scors`
+	query := `SELECT * FROM users`
 	rows, err := DB.Query(query)
 	if(err != nil){
 		fmt.Println("Error executing DB query")
@@ -26,7 +30,30 @@ func GetUsers(router echo.Context, DB *sql.DB) error {
 
 	for rows.Next(){
 		user := user{}
-		err := rows.Scan(&user.id, &user.Name, &user.Score)
+		err := rows.Scan(&user.ID, &user.User_name, &user.Score, &user.Country, &user.Lat, &user.Lon, &user.Created_at)
+		if(err != nil){
+			panic(err)
+		}
+
+		users = append(users, user)
+	}
+
+	return router.JSON(http.StatusOK, users)
+}
+
+func GetUser(router echo.Context, DB *sql.DB, userId int) error{
+	query := fmt.Sprintf(`SELECT * FROM users WHERE id=%d`, userId)
+	rows, err := DB.Query(query)
+	if(err != nil){
+		fmt.Println("Error executing DB query")
+	}
+	defer rows.Close()
+
+	users := make([]user, 0)
+
+	for rows.Next(){
+		user := user{}
+		err := rows.Scan(&user.ID, &user.User_name, &user.Score, &user.Country, &user.Lat, &user.Lon, &user.Created_at)
 		if(err != nil){
 			panic(err)
 		}
