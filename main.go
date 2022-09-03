@@ -56,5 +56,5 @@ func main(){
 		return routes.GetUsers(echo, DB)
 	})
 
-	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", os.Getenv("HOSTPORT"))))
+	e.Logger.Fatal(e.Start(fmt.Sprintf("127.0.0.1:%s", os.Getenv("HOSTPORT"))))
 }
